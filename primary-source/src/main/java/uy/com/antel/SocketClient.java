@@ -13,20 +13,17 @@ public class SocketClient {
     static DataOutputStream mensaje;
     static DataInputStream entrada;
 
-
-    public static void main(String[] args){
-
+    public SocketClient(String json) {
         try {
             sc = new Socket(Host, port);
             mensaje = new DataOutputStream(sc.getOutputStream());
-            mensaje.writeUTF("Hola que tal");
+            mensaje.writeUTF(json);
 
             sc.close();
 
         } catch (IOException e) {
             e.printStackTrace();
         }
-
     }
 
 
