@@ -3,6 +3,7 @@ package uy.com.antel;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
+import java.net.InetAddress;
 import java.net.Socket;
 
 public class SocketClient {
@@ -24,6 +25,7 @@ public class SocketClient {
             sc.close();
 
         } catch (IOException e) {
+            System.out.println("no hay conexion");
             e.printStackTrace();
         }
 
