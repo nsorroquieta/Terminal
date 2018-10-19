@@ -1,10 +1,9 @@
 package uy.com.antel;
 
-import java.io.DataInputStream;
-import java.io.DataOutputStream;
-import java.io.IOException;
+import java.io.*;
 import java.net.InetAddress;
 import java.net.Socket;
+import java.net.UnknownHostException;
 
 public class SocketClient {
 
@@ -17,16 +16,25 @@ public class SocketClient {
     public SocketClient(String json) {
         try {
             sc = new Socket(Host, port);
+            BufferedReader in = new BufferedReader(new InputStreamReader(sc.getInputStream()));
+            String response;
+            while (true) {
+                response = in.readLine();
+                if (response.startsWith("Bienvenido")) {
+                    System.out.println(response);
+                    break;
+                }
+            }
             mensaje = new DataOutputStream(sc.getOutputStream());
-            mensaje.writeUTF(json);
-
+            mensaje.writeBytes(json);
+//            mensaje.writeUTF(json);
             sc.close();
 
         } catch (IOException e) {
             System.out.println("no hay conexion");
             e.printStackTrace();
         }
+
+
     }
-
-
 }

@@ -88,7 +88,8 @@ public class Terminal {
                             buyFlag = false;
                         } while (buyFlag);
 
-                        String json = "{\"command\":\"buyTicket\",\"carRegistration\":\"" + carRegistration + "\",\"startDate\":\"" + startDate + "\",\"minutes\":\""+minutes+"\"";
+                        String json = "{\"command\":\"buyTicket\",\"carRegistration\":\"" + carRegistration + "\",\"startDate\":\"" + startDate + "\",\"minutes\":\""+minutes+"\"}";
+                        System.out.println(json);
                         new SocketClient(json);
 
                     }catch (IOException e) {
