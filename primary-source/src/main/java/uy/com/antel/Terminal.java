@@ -11,7 +11,7 @@ public class Terminal {
     public static void main (String[] Args){
         BufferedReader userInput = new BufferedReader( new InputStreamReader(System.in));
         String command = null;
-
+        SocketClient sc = new SocketClient();
         do {
             System.out.print("Ingrese el comando->");
             String linea = null;
@@ -90,7 +90,8 @@ public class Terminal {
 
                         String json = "{\"command\":\"buyTicket\",\"carRegistration\":\"" + carRegistration + "\",\"startDate\":\"" + startDate + "\",\"minutes\":\""+minutes+"\"}";
                         System.out.println(json);
-                        new SocketClient(json);
+                        System.out.println(sc.reciveMessage());
+                        sc.sendMessage(json);
 
                     }catch (IOException e) {
                         e.printStackTrace();
