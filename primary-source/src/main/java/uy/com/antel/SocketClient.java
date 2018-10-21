@@ -2,7 +2,6 @@ package uy.com.antel;
 
 import java.io.*;
 import java.net.Socket;
-import java.net.UnknownHostException;
 
 public class SocketClient {
 
@@ -14,19 +13,13 @@ public class SocketClient {
 
 
 
-
-
-
-
     public SocketClient() {
         try {
             socket = new Socket(Host, port);
-            System.out.println("El socket está conectado");
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
-
 
     public String sendMessage(String msg){
         try {
@@ -38,7 +31,6 @@ public class SocketClient {
         }
         return "";
     }
-
 
 
     public String reciveMessage(){
@@ -64,19 +56,11 @@ public class SocketClient {
         return line;
     }
 
-
     public void closeSocket(){
         try {
             socket.close();
         } catch (IOException e) {
             e.printStackTrace();
         }
-
-
-        /*try {
-            sc.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }*/
     }
 }
