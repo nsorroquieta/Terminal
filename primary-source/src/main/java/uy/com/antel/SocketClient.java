@@ -8,18 +8,12 @@ public class SocketClient {
 
     static final String Host = "localhost";
     static final int port = 9898;
-    private Socket sc;
-    private DataOutputStream mensaje;
-    private BufferedReader entrada;
-    private PrintWriter out;
+    private Socket socket;
     private BufferedReader input;
+    private PrintWriter out;
 
 
 
-    // initialize socket and input output streams
-    private Socket socket            = null;
-    private DataInputStream  in   = null;
-    private DataOutputStream output     = null;
 
 
 
@@ -36,12 +30,9 @@ public class SocketClient {
 
     public String sendMessage(String msg){
         try {
-            PrintWriter pw = new PrintWriter(socket.getOutputStream(), true);
-            pw.println(msg);
-            this.reciveMessage();
-            //output = new DataOutputStream(socket.getOutputStream());
-            //output.writeBytes(msg);
-            //output.close();
+            out = new PrintWriter(socket.getOutputStream(), true);
+            out.println(msg);
+            return this.reciveMessage();
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -61,7 +52,6 @@ public class SocketClient {
                     try {
                         line = input.readLine();
                         flagRead = false;
-                        System.out.println("se leyo: "+line);
                     } catch (IOException i) {
                         System.out.println("cayo la lectura.");
                         System.out.println(i);
@@ -77,8 +67,6 @@ public class SocketClient {
 
     public void closeSocket(){
         try {
-            //input.close();
-            output.close();
             socket.close();
         } catch (IOException e) {
             e.printStackTrace();

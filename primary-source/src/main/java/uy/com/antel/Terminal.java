@@ -89,11 +89,10 @@ public class Terminal {
                         } while (buyFlag);
 
                         String json = "{\"command\":\"buyTicket\",\"carRegistration\":\"" + carRegistration + "\",\"startDate\":\"" + startDate + "\",\"minutes\":\""+minutes+"\"}";
-                        System.out.println(json);
+                        //System.out.println(json);
         //c                System.out.println(sc.reciveMessage());
-                        sc.sendMessage(json);
-                        //Escucho mensaje
-                        //sc.reciveMessage();
+                       String response = sc.sendMessage(json);
+                        System.out.println("respuesta: "+response);
                         sc.closeSocket();
                     }catch (IOException e) {
                         e.printStackTrace();
