@@ -2,6 +2,7 @@ package uy.com.antel;
 
 import java.io.*;
 import java.net.Socket;
+import java.net.UnknownHostException;
 
 public class SocketClient {
 
@@ -11,69 +12,83 @@ public class SocketClient {
     private DataOutputStream mensaje;
     private BufferedReader entrada;
     private PrintWriter out;
-    private BufferedReader in;
+    private BufferedReader input;
+
+
+
+    // initialize socket and input output streams
+    private Socket socket            = null;
+    private DataInputStream  in   = null;
+    private DataOutputStream output     = null;
+
+
+
 
     public SocketClient() {
         try {
-            sc = new Socket(Host, port);
-            out = new PrintWriter(sc.getOutputStream(), true);
-            in = new BufferedReader(new InputStreamReader(sc.getInputStream()));
+            socket = new Socket(Host, port);
+            System.out.println("El socket está conectado");
         } catch (IOException e) {
-            System.out.println("no hay conexion");
             e.printStackTrace();
         }
     }
+
 
     public String sendMessage(String msg){
-        out.println(msg);
-        String resp = null;
         try {
-            resp = in.readLine();
+            PrintWriter pw = new PrintWriter(socket.getOutputStream(), true);
+            pw.println(msg);
+            this.reciveMessage();
+            //output = new DataOutputStream(socket.getOutputStream());
+            //output.writeBytes(msg);
+            //output.close();
         } catch (IOException e) {
             e.printStackTrace();
         }
-        return resp;
+        return "";
     }
 
-    /*public String sendMessage(String json){
-        String response = "";
-        System.out.println("llegue");
-        try {
-            System.out.println("llegue");
-            mensaje = new DataOutputStream(this.sc.getOutputStream());
-            System.out.println("llegue");
-            mensaje.writeBytes(json);
-            System.out.println("llegue");
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return response;
-    }*/
 
 
     public String reciveMessage(){
-        String response = "";
+        String line = "";
         try {
-            entrada = new BufferedReader(new InputStreamReader(sc.getInputStream()));
-            while (true) {
-                response = entrada.readLine();
-                if (response!=null) {
-                    System.out.println(response);
-                    break;
+            input = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+            boolean flagRead = true;
+            //reads message from client until "Over" is sent
+            while (flagRead) {
+                if (line != null) {
+                    try {
+                        line = input.readLine();
+                        flagRead = false;
+                        System.out.println("se leyo: "+line);
+                    } catch (IOException i) {
+                        System.out.println("cayo la lectura.");
+                        System.out.println(i);
+                    }
                 }
             }
         } catch (IOException e) {
             e.printStackTrace();
         }
-        return response;
+        return line;
     }
 
 
-    private void closeSocket(){
+    public void closeSocket(){
         try {
-            sc.close();
+            //input.close();
+            output.close();
+            socket.close();
         } catch (IOException e) {
             e.printStackTrace();
         }
+
+
+        /*try {
+            sc.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }*/
     }
 }

@@ -90,9 +90,11 @@ public class Terminal {
 
                         String json = "{\"command\":\"buyTicket\",\"carRegistration\":\"" + carRegistration + "\",\"startDate\":\"" + startDate + "\",\"minutes\":\""+minutes+"\"}";
                         System.out.println(json);
-                        System.out.println(sc.reciveMessage());
+        //c                System.out.println(sc.reciveMessage());
                         sc.sendMessage(json);
-
+                        //Escucho mensaje
+                        //sc.reciveMessage();
+                        sc.closeSocket();
                     }catch (IOException e) {
                         e.printStackTrace();
                     }
