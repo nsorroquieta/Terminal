@@ -47,6 +47,7 @@ public class SocketClient {
                     } catch (IOException i) {
                         System.out.println("cayo la lectura.");
                         System.out.println(i);
+                        this.closeSocket();
                     }
                 }
             }
