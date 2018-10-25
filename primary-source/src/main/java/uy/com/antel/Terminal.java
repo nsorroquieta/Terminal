@@ -37,7 +37,7 @@ public class Terminal {
             String[] result = linea.split("\\s");
 
             String inputCommand = result[0].toLowerCase();
-            switch (inputCommand.hashCode()){
+            switch (inputCommand.hashCode()) {
                 case 104: // H
                     System.out.println("");
                     System.out.println("Lista de comandos");
@@ -107,19 +107,44 @@ public class Terminal {
                             buyFlag = false;
                         } while (buyFlag);
 
-                        String json = "{\"command\":\"buyTicket\",\"carRegistration\":\"" + carRegistration + "\",\"startDate\":\"" + startDate + "\",\"minutes\":\""+minutes+"\"}";
-                        System.out.println(json);
-        //c                System.out.println(sc.reciveMessage());
+                        String json = "{\"command\":\"buyTicket\",\"ticketId\":\"null\",\"carRegistration\":\"" + carRegistration + "\",\"startDate\":\"" + startDate + "\",\"minutes\":\"" + minutes + "\"}";
                         String response = sc.sendMessage(json);
-                        System.out.println("Agencia: "+response);
+                        System.out.println("Agencia: " + response);
                         sc.closeSocket();
-                    }catch (IOException e) {
+                    } catch (IOException e) {
                         e.printStackTrace();
                     }
                     break;
                 case 97: // A
-                    System.out.println("Anular ticket");
+                    Boolean cancelFlag = true;
+                    System.out.println("ANULAR TICKET");
                     System.out.println("----------------");
+
+                    String ticketId = null;
+
+                    do{
+                        Boolean flagTicketId = true;
+                        do {
+                            System.out.print("Ingrese el número de ticket ->");
+                            try {
+                                ticketId = userInput.readLine();
+                                if (ticketId.trim().equals("")) {
+                                    System.out.println("----------------");
+                                    System.out.println("El número de ticket no puede ser vacío");
+                                    System.out.println("----------------");
+                                } else {
+                                    flagTicketId = false;
+                                    cancelFlag= false;
+                                }
+                            } catch (IOException e) {
+                                e.printStackTrace();
+                            }
+                        } while (flagTicketId);
+                    }while (cancelFlag);
+                    String json = "{\"command\":\"cancelTicket\",\"ticketId\":\"" + ticketId + "\",\"carRegistration\":\"null\",\"startDate\":\"null\",\"minutes\":\"null\"}";
+                    String response = sc.sendMessage(json);
+                    System.out.println("Agencia: " + response);
+                    sc.closeSocket();
                     break;
                 default:
                         System.out.println("----------------");
